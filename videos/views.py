@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from django.views.generic import ListView, CreateView
-from .models import Video, Vote
+from .models import Video
 from django.urls import reverse
 from django.db.models import F
 from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 
 
 class HomePageView(ListView):
@@ -19,7 +20,7 @@ class UploadClipView(CreateView):
     def get_success_url(self):
         return reverse('home')
 
-
+@csrf_exempt
 def thumbs(request):
 
     if request.POST.get('action') == 'thumbs':
@@ -28,17 +29,17 @@ def thumbs(request):
         update = Video.objects.get(id=id)
 
         if button == 'thumbsup':
-            update.cheating = F('thumbsup') + 1
+            update.cheating = F('cheating') + 1
             update.save()
 
-            new = Vote(post_id=id, vote=True)
-            new.save()
+            #new = Vote(post_id=id, vote=True)
+            #new.save()
         else:
-            update.not_cheating = F('thumbsdown') + 1
+            update.not_cheating = F('not_cheating') + 1
             update.save()
 
-            new = Vote(post_id=id, vote=False)
-            new.save()
+            #new = Vote(post_id=id, vote=False)
+            #new.save()
 
         update.refresh_from_db()
         up = update.cheating

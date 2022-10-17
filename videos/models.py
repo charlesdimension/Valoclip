@@ -12,8 +12,8 @@ class Video(models.Model):
         ordering = ('-id',)
 
 
-class Vote(models.Model):
-    video = models.ForeignKey(Video, related_name='videoid',
-                             on_delete=models.CASCADE, default=None, blank=True)
+#class Vote(models.Model):
+    #video = models.ForeignKey(Video, related_name='videoid',
+                            # on_delete=models.CASCADE, default=None, blank=True)
 
 
